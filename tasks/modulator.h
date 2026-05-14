@@ -5,7 +5,7 @@
 
 class ModulatorQAM {
 public:
-    ModulatorQAM(int modulation_mode, int frame_size, const std::vector<int>& input);
+    explicit ModulatorQAM(int modulation_mode, int frame_size, const std::vector<int>& input);
     ~ModulatorQAM() = default;
 
     std::vector<std::complex<double>> TxSig() const;

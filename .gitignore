@@ -4,3 +4,6 @@ tasks/.vs/*
 CMakePresets.json
 tasks/*.obj
 tasks/*.pdb
+build/*
+.vs/*
+out/*

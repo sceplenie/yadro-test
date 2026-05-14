@@ -10,7 +10,8 @@ ModulatorQAM::ModulatorQAM(int modulation_mode, int frame_size, const std::vecto
 {
     data_.resize(number_of_symbols_);
 
-    const size_t symbol_length = 2 * modulation_mode;
+    // Количество бит на один символ
+    const size_t symbol_length = 2 * modulation_mode; 
 
     size_t j = 0;
     for (auto i = 0; i < data_.size(); ++i) {
@@ -23,17 +24,22 @@ ModulatorQAM::ModulatorQAM(int modulation_mode, int frame_size, const std::vecto
     }
 }
 
+// Преобразование битов в комплексные символы
+// Все символы нормированы для единичной мощности
+// Модуляция по Gray Code
 std::vector<std::complex<double>> ModulatorQAM::TxSig() const {
     std::vector<std::complex<double>> result(number_of_symbols_);
 
+    // QPSK модулятор
     if (modulation_mode_ == 1) {
         for (int i = 0; i < number_of_symbols_; ++i) {
             result[i] = std::complex<double>(
-                data_[i][0] == 0 ? -norm_factor_ : norm_factor_,
+                data_[i][0] == 0 ? -norm_factor_ : norm_factor_,  
                 data_[i][1] == 0 ? -norm_factor_ : norm_factor_);
         }
     }
 
+    // 16QAM модулятор
     else if (modulation_mode_ == 2) {
         for (int i = 0; i < number_of_symbols_; ++i) {
             double real_part = (2 * data_[i][0] - 1) * (3 - 2 * data_[i][1]);
@@ -43,6 +49,7 @@ std::vector<std::complex<double>> ModulatorQAM::TxSig() const {
         }
     }
 
+    // 64QAM модулятор
     else {
         for (int i = 0; i < number_of_symbols_; ++i) {
             int b0 = data_[i][0], b1 = data_[i][1], b2 = data_[i][2];

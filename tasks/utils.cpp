@@ -1,3 +1,7 @@
+#include <cmath>
+#include <random>
+#include <chrono>
+
 #include "utils.h"
 
 namespace utils {
@@ -15,4 +19,16 @@ double GetNormalizationFactor(int modulation_mode) {
     }
 }
 
-}  // namespace utils
+std::vector<int> GenerateRandomBits(int size) {
+    std::vector<int> result(size);
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count() ^ (uint64_t)std::random_device{}();
+    std::mt19937 gen(seed);
+    std::uniform_int_distribution<int> dist(0, 1);
+
+    for (int i = 0; i < size; ++i)
+        result[i] = dist(gen);
+
+    return result;
+}
+
+}

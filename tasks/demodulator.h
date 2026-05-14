@@ -5,7 +5,7 @@
 
 class DemodulatorQAM {
 public:
-	DemodulatorQAM(int modulation_mode,
+	explicit DemodulatorQAM(int modulation_mode,
                    int number_of_symbols,
 		           const std::vector<std::complex<double>>& data);
     ~DemodulatorQAM() = default;

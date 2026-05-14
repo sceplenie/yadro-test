@@ -2,6 +2,7 @@ import json
 import argparse
 import matplotlib.pyplot as plt
 
+
 def modulator_from_mode(mode: str) -> str:
   match mode:
     case '1':
@@ -13,26 +14,26 @@ def modulator_from_mode(mode: str) -> str:
   return 'Unsupported Modulation Mode'
 
 
-def plot_chart(data):
-  plt.figure(figsize=(10, 6))
+def plot_chart(data):  
+  plt.figure('BER/Variance Chart', figsize=(10, 6))
 
-  for mode, sigma_map in sorted(data.items(), key=lambda x: int(x[0])):
-    sigmas = sorted(sigma_map.keys())
+  for mode, variance_map in data.items():
+    variances = sorted(variance_map.keys())
 
     bers = []
-    for sigma in sigmas:
-      bers.append(sigma_map[sigma])
+    for variance in variances:
+      bers.append(variance_map[variance])
 
     plt.plot(
-      sigmas,
+      variances,
       bers,
       marker="o",
       label=modulator_from_mode(mode)
     )
     
-  plt.xlabel("Sigma")
+  plt.xlabel("Variance")
   plt.ylabel("BER")
-  plt.title("BER vs Sigma for Modulation Modes")
+  plt.title("BER vs Variance for Modulation Modes")
   plt.yscale("log")
 
   plt.grid(True, which="both", linestyle="--", alpha=0.5)
@@ -44,7 +45,7 @@ def plot_chart(data):
 
 def parse_args():
   parser = argparse.ArgumentParser(
-    description="Plot BER vs Sigma for modulation modes"
+    description="Plot BER vs Variance for modulation modes"
   )
 
   parser.add_argument(
